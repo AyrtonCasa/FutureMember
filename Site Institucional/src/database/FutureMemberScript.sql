@@ -1,4 +1,4 @@
-create database FutureMember;
+CREATE DATABASE futuremember;
 use FutureMember;
 
 create table usuario(
@@ -7,9 +7,10 @@ nome varchar(45),
 nomeSocial varchar(45),
 DtNasc date,
 email varchar(216),
-	constraint chkEmail check (email in ('%@%', '%.%')),
+	constraint chkEmail check (email like ('%@%.%')),
 senha varchar(20)
 );
+
 
 create table publicacao(
 idPublicacao int primary key auto_increment,

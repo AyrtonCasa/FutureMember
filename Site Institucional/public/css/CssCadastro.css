@@ -1,0 +1,93 @@
+.background{
+    background-color: #01012B;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 98vh;
+
+    gap: 35px;
+
+    font-size: 2.5em;
+    color: #EEEF20;
+}
+
+.retornar{
+    position: absolute;
+    color: #EEEF20;
+    top: 5%;
+    left: 0;
+}
+
+a{
+    font-size: 0.5em;
+}
+
+/* #region formulario */
+.formulario a {
+    color: #EEEF20;
+}
+
+.formulario button{
+    background-color: #EEEF20;
+    color: black;
+    
+}
+
+.formulario{
+    background-color: #003678;
+    border: 5px solid #EE2677;
+    border-radius: 1%;
+    box-shadow: 1px 1px 50px #EE2677;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    
+    width: 35%;
+    height: 65%;
+    
+    padding: 1%;
+    padding-right: 0.5%;
+}
+
+.formulario input{
+    width: 60%;
+}
+/* #endregion */
+
+.campo{
+    display: flex;
+    flex-direction: column;
+}
+
+.links{
+    display: flex;
+    flex-direction: column;
+}
+
+.links button{
+    align-self: center;
+    cursor: pointer;
+    
+    font-weight: 600;
+    font-size: large;
+
+    border: 1px black solid;
+    border-radius: 15px;
+
+    height: 55px;
+    width: 30%;
+}
+
+.links a{
+    align-self: flex-end;
+}
+
+.titulo {
+    text-shadow: 1px -1px 15px #EEEF20;
+
+
+
+}
