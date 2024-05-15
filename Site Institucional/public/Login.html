@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Login</title>
 
-    <link rel="stylesheet" href="css/CssCadastro.css">
+    <link rel="stylesheet" href="css/CssLogin.css">
 </head>
 
 <body class="background">
@@ -17,7 +17,7 @@
     <div id="divFormulario" class="formulario">
 
         <!-- talvez centralizar um pouco -->
-
+    <div>
         <div class="campo">
             <span> Email: </span>
             <input type="text" id="inp_email" placeholder="É necessário que contenha @">
@@ -26,9 +26,11 @@
             <span> Senha: </span>
             <input type="password" id="inp_senha" placeholder="Insira sua senha">
         </div>
+    </div>
+
 
         <div class="links">
-            <button onclick="entrar()">Cadastrar</button>
+            <button onclick="entrar()">Entrar</button>
             <a href="Cadastro.html">Ainda não possui um login? Clique aqui</a>
             <div id="div_mensagem"></div>
         </div>
@@ -42,19 +44,20 @@
 <script>
 
 function entrar() {
-        aguardar();
+        
 
         var emailVar = inp_email.value;
         var senhaVar = inp_senha.value;
 
         if (emailVar == "" || senhaVar == "") {
-            div_mensagem.innerHTML = "(Mensagem de erro para todos os campos em branco)";
+            div_mensagem.innerHTML = "Coloque valores nos campos."
+            setTimeout (() => div_mensagem.innerHTML = "", 3000);
         }
         else {
             console.log("FORM LOGIN: ", emailVar);
         console.log("FORM SENHA: ", senhaVar);
 
-        fetch("/usuarios/autenticar", {
+        fetch("/usuario/autenticar", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -74,23 +77,23 @@ function entrar() {
                     console.log(JSON.stringify(json));
                     sessionStorage.EMAIL_USUARIO = json.email;
                     sessionStorage.NOME_USUARIO = json.nome;
-                    sessionStorage.ID_USUARIO = json.id;
-                    sessionStorage.AQUARIOS = JSON.stringify(json.aquarios)
+                    sessionStorage.ID_USUARIO = json.idUsuario;
+                    sessionStorage.SENHA_USUARIO = json.senha;
+                    sessionStorage.NOME_SOCIAL_USUARIO = json.nomeSocial;
 
                     setTimeout(function () {
-                        window.location = "./dashboard/cards.html";
+                        window.location.href = "index.html"; // pagina depois do login (tem que fazer ainda)
                     }, 1000); // apenas para exibir o loading
 
                 });
 
             } else {
 
+                div_mensagem.innerHTML = "Seu perfil não foi encontrado."
+                setTimeout (() => div_mensagem.innerHTML = "", 3000);
+
                 console.log("Houve um erro ao tentar realizar o login!");
 
-                resposta.text().then(texto => {
-                    console.error(texto);
-                    finalizarAguardar(texto);
-                });
             }
 
         }).catch(function (erro) {
@@ -98,10 +101,6 @@ function entrar() {
         })
 
         return false;
-    }
-
-    function sumirMensagem() {
-        cardErro.style.display = "none"
     }
         }
 

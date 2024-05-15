@@ -3,27 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Página Inicial</title>
 
     <link rel="stylesheet" href="css/CssIndex.css">
 
 </head>
 <body class="background">
     <div id="header" class="header">
+        <div class="container">
         <ul class="navbar">
-            <li class="agora">
-              <a href="#">Inicial</a>
+            <li>
+              <a href="#" class="agora">Inicial</a>
             </li>
             <li>|</li>
             <li>
-              <button onclick="">Login</button>
+              <button onclick="login()">Login</button>
             </li>
             <li>
                 <button onclick="mudar()">Cadastro</button>
             </li>
           </ul>
-
-        
+        </div>
     </div>
     <div id="body" class="body">teste</div>
     <div id="footer" class="footer">teste</div>
@@ -35,5 +35,9 @@
 <script>
     function mudar() {
         window.location.href = "Cadastro.html" 
+    }
+
+    function login(){
+        window.location.href = "Login.html"
     }
 </script>

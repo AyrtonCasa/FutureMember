@@ -1,6 +1,11 @@
-.background{
+body {
+    padding: 0;
+    margin: 0;
+}
+
+.background {
     background-color: #01012B;
-    
+    padding: 0;
 
     display: flex;
     flex-direction: column;
@@ -13,28 +18,54 @@
 
 
 /* #region header */
-.header{
+.header {
     background-color: #7209B7;
 
     width: 100%;
     height: 10%;
-
 }
 
-.navbar{
+.header .container {
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+}
+
+.container {
+    display: flex;
+    width: 95%;
+    margin: auto;
+}
+
+.navbar {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    list-style: none;
+    color: #e3b062;
+
+    gap: 1%;
+}
+
+.agora{
     
+    color: #EEEF20;
 }
+
 /* #endregion */
 
 /* #region body */
-.body{
+.body {
     background-image: url(imagens/cyberpunkUrbano.avif);
 }
+
 /* #endregion */
 
 /* #region footer */
-.footer{
+.footer {
     background-color: #EEEF20;
     color: black;
 }
+
 /* #endregion */

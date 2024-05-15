@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Cadastro</title>
 
     <link rel="stylesheet" href="css/CssCadastro.css">
 </head>
@@ -94,7 +94,7 @@
                     if (resposta.ok) {
                         div_mensagem.innerHTML = `Deu certo fml.`
                         setTimeout(() => {
-                            window.location = "login.html";
+                            window.location.href = "Login.html";
                         }, "2000");
                     } else {
                         div_mensagem.innerHTML = "Houve um erro ao tentar realizar o cadastro!";
