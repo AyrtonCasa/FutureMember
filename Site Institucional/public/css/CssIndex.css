@@ -12,7 +12,7 @@ body {
     height: 100vh;
 
 
-    font-size: 2.5em;
+    font-size: 1.5em;
     color: #EEEF20;
 }
 
@@ -48,16 +48,42 @@ body {
     gap: 1%;
 }
 
-.agora{
-    
+.logo{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.inicial{ 
     color: #EEEF20;
+}
+
+.navbar button{
+    background-color: #EEEF20;
+    color: black;
+    border-radius: 35% 35% 35% 35% solid ;
+
+
 }
 
 /* #endregion */
 
 /* #region body */
 .body {
-    background-image: url(imagens/cyberpunkUrbano.avif);
+    height: 100%;
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+}
+
+.fundoimagem{
+    display: flex;
+}
+
+.texto{
+    background-color: #7209B7;
+
 }
 
 /* #endregion */
