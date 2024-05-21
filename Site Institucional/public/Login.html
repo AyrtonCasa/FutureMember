@@ -80,9 +80,10 @@ function entrar() {
                     sessionStorage.ID_USUARIO = json.idUsuario;
                     sessionStorage.SENHA_USUARIO = json.senha;
                     sessionStorage.NOME_SOCIAL_USUARIO = json.nomeSocial;
+                    sessionStorage.DATA_NASCIMENTO = json.DtNasc; 
 
                     setTimeout(function () {
-                        window.location.href = "index.html"; // pagina depois do login (tem que fazer ainda)
+                        window.location.href = "Mural.html"; // pagina depois do login (tem que fazer ainda)
                     }, 1000); // apenas para exibir o loading
 
                 });

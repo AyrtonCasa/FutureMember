@@ -19,7 +19,13 @@ function autenticar(req, res) {
 
                     if (resultadoAutenticar.length == 1) {
                         console.log(resultadoAutenticar);
-                        res.json(resultadoAutenticar);
+                        res.json({resultadoAutenticar, 
+                            nome: resultadoAutenticar[0].nome,
+                            nomeSocial:  resultadoAutenticar[0].nomeSocial,
+                            senha: resultadoAutenticar[0].senha,
+                            email: resultadoAutenticar[0].email,
+                            DtNasc: resultadoAutenticar[0].DtNasc,
+                            idUsuario: resultadoAutenticar[0].idUsuario});
                     } else if (resultadoAutenticar.length == 0) {
                         res.status(403).send("Email e/ou senha inválido(s)");
                     } else {
@@ -54,6 +60,8 @@ function cadastrar(req, res) {
         res.status(400).send("Sua senha está undefined!");
     } else if (DtNasc == undefined) {
         res.status(400).send("Sua data de nascimento está undefined!");
+    }   else if (nomeSocial == undefined) {
+        nomeSocial = nome;
     } else {
 
         // Passe os valores como parâmetro e vá para o arquivo usuarioModel.js

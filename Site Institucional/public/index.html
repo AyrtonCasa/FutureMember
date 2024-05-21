@@ -45,12 +45,13 @@
         <div id="body" class="body">
             <div class="fundoImagem">
                 <div class="introducao">
-                    <p>Esse site visa trazer informações do mundo que interliga a informática, mecânica e biologia,
+                    <h3>O que é a FutureMember?</h3>
+                    <p>Esse projeto visa trazer informações do mundo que interliga a informática, mecânica e biologia,
                         fornecidas pelos próprios usuários e pelas notícias que trazem. <br>
                         Dado que, as áreas das próteses e órteses são áreas que ainda são muito primordiais e o seu
                         desenvolvimento envolve diversas questões sobre saúde, economia e ética, é nítida a necessidade
-                        de que esse tema seja discutido por órgãos maiores e por nós cidadãos comuns que farão uso de
-                        tais ferramentas, caso necessário(ou não?).</p>
+                        de que esse tema seja discutido por órgãos maiores e por nós, cidadãos comuns que farão uso de
+                        tais ferramentas, caso necessário (ou não?).</p>
                 </div>
             </div>
 
@@ -60,18 +61,55 @@
                         <span class="nome">O que é CyberPunk?</span>
                     </div>
                     <div class="paragrafo">
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam quidem perferendis cumque ratione! Perspiciatis tempore nesciunt molestiae impedit ipsum architecto maiores nulla voluptas, consequuntur repellendus sapiente dolor deserunt placeat rerum! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perferendis, commodi modi vero tempora nostrum, porro maxime placeat suscipit eveniet pariatur rerum temporibus perspiciatis voluptatem distinctio doloremque repellendus accusantium dolor rem?</p>
+                        <p>Cyberpunk é um subgenênero alternativo de ficção científica, que foca na tecnologia
+                            futurística e as consequências para a sociedade, por isso o nome é a combinação de
+                            cibernética e punk alternativo, ou seja um futuro distópico. Esse genêro ou termo foi criado
+                            pelo escritor Bruce Bethke quando escreveu seu livro Cyberpunk, e serve de inspiração à essa
+                            aplicação que foca na parte da interação orgânica da tecnologia com o corpo humano e como e
+                            quanto está evoluindo atualmente. <br>
+                            Além disso, esse subgenênero foi inspiração de jogos como CyberPunk2077 (sendo o mais famoso
+                            deles) e séries como CyberPunk2077: Mercenários (série animada) e diversos livros.</p>
                     </div>
                 </div>
                 <div class="imagemCyber">
-                    <img src="css/imagens/city.jfif" alt="">
+                    <img src="css/imagens/Imagem Cyberpunk.avif" alt="">
+                    <span class="legenda">Imagem do jogo CyberPunk2077</span>
                 </div>
             </div>
 
         </div>
 
-        <div id="footer" class="footer">
-            teste
+        <div id="footer" class="SobreMim">
+            
+                <div class="contexto">
+                    <span>Sobre o desenvolvedor...</span>
+
+                    <p>Ayrton Casa: <br>
+                        "Desde que sou pequeno meus pais gostariam que eu fosse médico, mas eu sentia-me tentado à ir
+                        para área da tecnologia e nisso encontrei a área das próteses e órteses mecânicas que consegui
+                        ver o prazer de ajudar uma pessoa de forma física com a tecnologia e assim busco um dia
+                        participar dessa área."</p>
+                </div>
+
+                <div class="git">
+                    <span>Github do dev:</span> <br>
+                    <button class="git" onclick="git()">
+                        <img src="css/imagens/Github1.png">
+                    </button>
+                </div>
+            
+        </div>
+
+        <div class="footer">             
+            <div class="main">                 
+                <div class="contato">                                     
+                    <div class="conteudo">
+                        <span>©️ Copyright 2024 - Ayrton Casa</span>               
+                        <img style="width: 100px;" src="css/imagens/Logo_Future_Member-removebg-preview.png">                            
+                        <p>ayrton.casa@sptech.school</p>                  
+                    </div>                 
+                </div>             
+            </div>         
         </div>
 
     </div>
@@ -86,5 +124,9 @@
 
     function login() {
         window.location.href = "Login.html"
+    }
+
+    function git(){
+        window.open("https://github.com/AyrtonCasa");
     }
 </script>
