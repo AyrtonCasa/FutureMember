@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Postagens</title>
+    <title>Seu Perfil</title>
     <link rel="stylesheet" href="css/CssMural.css">
     <script src="js/sessao.js"></script>
 
@@ -47,7 +47,7 @@
                 <div class="container">
                     <h1>Publique o que você achou</h1>
                     <div class="div-form">
-                        <form id="form_postagem" method="post" >
+                        <form id="form_postagem" method="post" onsubmit="return publicar()">
                             <label>
                                 Título:
                                 <br>
@@ -110,7 +110,7 @@
 
             if (resposta.ok) {
                 window.alert("Post realizado com sucesso pelo usuario de ID: " + idUsuario + "!");
-                window.location = "Mural.html";
+                window.location = "/dashboard/mural.html";
                 
             } else if (resposta.status == 404) {
                 window.alert("Deu 404!");
@@ -165,35 +165,32 @@
 
                     var feed = document.getElementById("feed_container");
                     feed.innerHTML = "";
-                    for (let i = resposta.length - 1; i >= 0 ; i--) {
+                    for (let i = 0; i < resposta.length; i++) {
                         var publicacao = resposta[i];
 
                         // criando e manipulando elementos do HTML via JavaScript
                         var divPublicacao = document.createElement("div");
-                        var spanDtPostagem = document.createElement("span");
-                        var divTexto = document.createElement("div");
+                        var DtPostagem = document.createElement("span");
                         var spanTitulo = document.createElement("span");
                         var spanNome = document.createElement("span");
                         var divDescricao = document.createElement("div");
                         var divButtons = document.createElement("div");
-                        var btnCurtir = document.createElement("button");
+                        var btnEditar = document.createElement("button");
                         var btnDeletar = document.createElement("button");
 
 
-                        spanDtPostagem.innerHTML = "Data de Postagem: <b>" + publicacao.DtPostagem + "</b>";
+                        DtPostagem.innerHTML = "Data de Postagem: <b>" + publicacao.DtPostagem + "</b>";
                         spanTitulo.innerHTML = "Título: <b>" + publicacao.titulo + "</b>";
-                        spanNome.innerHTML = "Autor: <b>" + publicacao.nomeSocial + "</b>";
-                        divDescricao.innerHTML = "Descrição:";
-                        divTexto.innerHTML = "<b>" + publicacao.descricao + "<b>"
-                        btnCurtir.innerHTML = "Curtir";
+                        spanNome.innerHTML = "Autor: <b>" + publicacao.nome + "</b>";
+                        divDescricao.innerHTML = "Descrição: <b>" + publicacao.descricao + "</b>";
+                        btnEditar.innerHTML = "Curtir";
                         btnDeletar.innerHTML = "Deletar";
 
                         divPublicacao.className = "publicacao";
-                        spanDtPostagem.id = "DtPostagem";
+                        spanDtPostagem.id = "Dt_Postagem";
                         spanNome.className = "publicacao-nome";
                         spanTitulo.className = "publicacao-titulo";
                         divDescricao.className = "publicacao-descricao";
-                        divTexto.className = "publicacao-texto";
 
                         divButtons.className = "div-buttons"
 
@@ -205,13 +202,12 @@
                         btnDeletar.id = "btnDeletar" + publicacao.idPostagem;
                         btnDeletar.setAttribute("onclick", `deletar(${publicacao.idPostagem})`);
 
-                        divPublicacao.appendChild(spanDtPostagem);
+                        divPublicacao.appendChild(DtPostagem);
                         divPublicacao.appendChild(spanNome);
                         divPublicacao.appendChild(spanTitulo);
                         divPublicacao.appendChild(divDescricao);
-                        divDescricao.appendChild(divTexto);
                         divPublicacao.appendChild(divButtons);
-                        divButtons.appendChild(btnCurtir);
+                        divButtons.appendChild(btnEditar);
                         divButtons.appendChild(btnDeletar);
                         feed.appendChild(divPublicacao);
                     }

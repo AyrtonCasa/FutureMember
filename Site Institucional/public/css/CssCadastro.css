@@ -53,13 +53,23 @@ a{
 }
 
 .formulario input{
-    width: 60%;
+    width: 100%;
+}
+
+.inputs{
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 /* #endregion */
 
 .campo{
     display: flex;
     flex-direction: column;
+    width: 65%;
 }
 
 .links{

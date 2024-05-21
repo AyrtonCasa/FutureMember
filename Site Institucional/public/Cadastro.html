@@ -15,7 +15,7 @@
     <span class="titulo">Cadastre-se</span>
 
     <div id="divFormulario" class="formulario">
-
+        <div class="inputs">
         <div class="campo">
             <span> Nome: </span>
             <input type="text" id="inp_nome" placeholder="Insira seu nome completo">
@@ -40,7 +40,7 @@
             <span> Data de Nascimento: </span>
             <input type="date" id="inp_DtNasc">
         </div>
-
+    </div>
         <div class="links">
             <button onclick="cadastrar()">Cadastrar</button>
             <a href="Login.html">Já tem um Login? Clique aqui</a>
@@ -63,7 +63,11 @@
         var confirmacaoSenhaVar = inp_confirmacao_senha.value;
         var DtNascVar = inp_DtNasc.value;
 
-        if (
+        if(nomeSocialVar == ""){
+            nomeSocialVar = nomeVar;
+        } else if(senhaVar.length < 6){
+            alert("Sua senha precisa ter ao menos 6 dígitos!");
+        } else if (
             nomeVar == "" ||
             emailVar == "" ||
             senhaVar == "" ||

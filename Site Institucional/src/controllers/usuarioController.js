@@ -61,7 +61,7 @@ function cadastrar(req, res) {
     } else if (DtNasc == undefined) {
         res.status(400).send("Sua data de nascimento está undefined!");
     }   else if (nomeSocial == undefined) {
-        nomeSocial = nome;
+        res.status(400).send("Seu nomeSocial está undefined!");
     } else {
 
         // Passe os valores como parâmetro e vá para o arquivo usuarioModel.js
