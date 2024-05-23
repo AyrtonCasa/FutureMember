@@ -23,7 +23,7 @@
             </div>
 
             <div class="btn-nav-white">
-                <a href="cards.html">
+                <a href="Dash.html">
                     <h3>Seu Perfil</h3>
                 </a>
             </div>
@@ -110,7 +110,7 @@
 
             if (resposta.ok) {
                 window.alert("Post realizado com sucesso pelo usuario de ID: " + idUsuario + "!");
-                window.location = "Mural.html";
+                window.location.reload(true);
                 
             } else if (resposta.status == 404) {
                 window.alert("Deu 404!");
@@ -138,7 +138,7 @@
 
             if (resposta.ok) {
                 window.alert("Post deletado com sucesso pelo usuario de email: " + sessionStorage.getItem("EMAIL_USUARIO") + "!");
-                window.location = "Mural.html";
+                window.location.reload(true);
             } else if (resposta.status == 404) {
                 window.alert("Deu 404!");
             } else {

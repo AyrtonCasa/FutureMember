@@ -42,7 +42,7 @@
         </div>
     </div>
         <div class="links">
-            <button onclick="cadastrar()">Cadastrar</button>
+            <button onclick="cadastra()">Cadastrar</button>
             <a href="Login.html">Já tem um Login? Clique aqui</a>
             <div id="div_mensagem"></div>
         </div>
@@ -55,7 +55,7 @@
 
 <script>
 
-    function cadastrar() {
+    function cadastra() {
         var nomeVar = inp_nome.value;
         var nomeSocialVar = inp_nomeSocial.value;
         var emailVar = inp_email.value;
@@ -65,7 +65,9 @@
 
         if(nomeSocialVar == ""){
             nomeSocialVar = nomeVar;
-        } else if(senhaVar.length < 6){
+        }
+        
+        if(senhaVar.length < 6){
             alert("Sua senha precisa ter ao menos 6 dígitos!");
         } else if (
             nomeVar == "" ||
