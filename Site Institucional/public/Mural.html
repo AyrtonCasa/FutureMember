@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Postagens</title>
     <link rel="stylesheet" href="css/CssMural.css">
-    <script src="js/sessao.js"></script>
+    <script src="js/script.js"></script>
+    <script src="script.js"></script>
 
 </head>
 <!-- validarSessao(), -->
@@ -176,16 +177,18 @@
                         var spanNome = document.createElement("span");
                         var divDescricao = document.createElement("div");
                         var divButtons = document.createElement("div");
-                        var btnCurtir = document.createElement("button");
+                        var labelCurtir = document.createElement("label");
+                        var i1Curtir = document.createElement("i");
+                        var i2Curtir = document.createElement("i");
+                        var btnCurtir = document.createElement("input");
                         var btnDeletar = document.createElement("button");
 
-
+                        
                         spanDtPostagem.innerHTML = "Data de Postagem: <b>" + publicacao.DtPostagem + "</b>";
                         spanTitulo.innerHTML = "Título: <b>" + publicacao.titulo + "</b>";
                         spanNome.innerHTML = "Autor: <b>" + publicacao.nomeSocial + "</b>";
                         divDescricao.innerHTML = "Descrição:";
                         divTexto.innerHTML = "<b>" + publicacao.descricao + "<b>"
-                        btnCurtir.innerHTML = "Curtir";
                         btnDeletar.innerHTML = "Deletar";
 
                         divPublicacao.className = "publicacao";
@@ -197,22 +200,37 @@
 
                         divButtons.className = "div-buttons"
 
-                        btnCurtir.className = "publicacao-btn-editar"
-                        btnCurtir.id = "btnCurtir" + publicacao.idPostagem;
-                        btnCurtir.setAttribute("onclick", `curtir(${publicacao.idPostagem})`);
+                        labelCurtir.className = "like-label"
+                        labelCurtir.htmlFor = "btnCurtir"
+
+                        i1Curtir.ariaHidden = "true";
+                        i2Curtir.ariaHidden = "true";
+                        i1Curtir.className = "fa fa-heart-o";
+                        i2Curtir.className = "fa fa-heart";
+
+                        btnCurtir.type = "checkbox"
+                        btnCurtir.className = "like-checkbox"
+                        btnCurtir.id = "btnCurtir" + publicacao.idPublicacao;
+                        btnCurtir.setAttribute("onclick", `curtir(${publicacao.idPublicacao})`);
 
                         btnDeletar.className = "publicacao-btn-editar"
-                        btnDeletar.id = "btnDeletar" + publicacao.idPostagem;
-                        btnDeletar.setAttribute("onclick", `deletar(${publicacao.idPostagem})`);
+                        btnDeletar.id = "btnDeletar" + publicacao.idPublicacao;
+                        btnDeletar.setAttribute("onclick", `deletar(${publicacao.idPublicacao})`);
+
 
                         divPublicacao.appendChild(spanDtPostagem);
                         divPublicacao.appendChild(spanNome);
                         divPublicacao.appendChild(spanTitulo);
                         divPublicacao.appendChild(divDescricao);
                         divDescricao.appendChild(divTexto);
+
                         divPublicacao.appendChild(divButtons);
                         divButtons.appendChild(btnCurtir);
+                        divButtons.appendChild(labelCurtir);
+                        labelCurtir.appendChild(i1Curtir);
+                        labelCurtir.appendChild(i2Curtir);
                         divButtons.appendChild(btnDeletar);
+
                         feed.appendChild(divPublicacao);
                     }
 
