@@ -1,29 +1,34 @@
 <!DOCTYPE html>
 <html lang="ptbr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Seu Perfil</title>
+
     <link rel="stylesheet" href="css/CssDash.css">
+
     <script src="js/sessao.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 </head>
 <!-- validarSessao(), -->
-<body onload=" atualizarFeed()">
 
-    <div class="janela">
+<body onload="atualizarFeed(), obterDadosGrafico()">
+
+    <div class="janela" onload="plotarGrafico()">
 
         <div class="Dashboard">
 
             <div id="Dados" class="dado">
                 <div>Dados</div>
-                <div id="gráfico">Gráfico</div>
+                <div id="gráfico">
+                    <canvas id="myChartCanvas"></canvas>
+                </div>
             </div>
 
             <div id="postagem" class="postagem">
-                    <!-- postagem -->
-                teste
-                    <!-- postagem 1 -->
+                
             </div>
 
         </div>
@@ -59,12 +64,12 @@
 </html>
 
 <script>
-    
-    b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
-    
+
+    b_usuario.innerHTML = sessionStorage.NOME_SOCIAL_USUARIO;
+
 
     function limparFormulario() {
-        document.getElementById("form_postagem").reset();
+        document.getElementById("postagem").reset();
     }
 
 
@@ -91,10 +96,12 @@
     }
 
     function atualizarFeed() {
-        fetch("/publi/listar").then(function (resposta) {
+        var idUsuario = sessionStorage.ID_USUARIO;
+
+        fetch(`/publi/listar/${idUsuario}`).then(function (resposta) {
             if (resposta.ok) {
                 if (resposta.status == 204) {
-                    var feed = document.getElementById("feed_container");
+                    var feed = document.getElementById("postagem");
                     var mensagem = document.createElement("span");
                     mensagem.innerHTML = "Nenhum resultado encontrado."
                     feed.appendChild(mensagem);
@@ -104,52 +111,73 @@
                 resposta.json().then(function (resposta) {
                     console.log("Dados recebidos: ", JSON.stringify(resposta));
 
-                    var feed = document.getElementById("feed_container");
+                    var feed = document.getElementById("postagem");
                     feed.innerHTML = "";
-                    for (let i = 0; i < resposta.length; i++) {
+                    for (let i = resposta.length - 1; i >= 0 ; i--) {
                         var publicacao = resposta[i];
 
                         // criando e manipulando elementos do HTML via JavaScript
                         var divPublicacao = document.createElement("div");
-                        var DtPostagem = document.createElement("span");
+                        var spanDtPostagem = document.createElement("span");
+                        var divTexto = document.createElement("div");
                         var spanTitulo = document.createElement("span");
                         var spanNome = document.createElement("span");
                         var divDescricao = document.createElement("div");
                         var divButtons = document.createElement("div");
-                        var btnEditar = document.createElement("button");
+                        var labelCurtir = document.createElement("label");
+                        var i1Curtir = document.createElement("i");
+                        var i2Curtir = document.createElement("i");
+                        var btnCurtir = document.createElement("input");
                         var btnDeletar = document.createElement("button");
 
-
-                        DtPostagem.innerHTML = "Data de Postagem: <b>" + publicacao.DtPostagem + "</b>";
+                        
+                        spanDtPostagem.innerHTML = "Data de Postagem: <b>" + publicacao.DtPostagem + "</b>";
                         spanTitulo.innerHTML = "Título: <b>" + publicacao.titulo + "</b>";
-                        spanNome.innerHTML = "Autor: <b>" + publicacao.nome + "</b>";
-                        divDescricao.innerHTML = "Descrição: <b>" + publicacao.descricao + "</b>";
-                        btnEditar.innerHTML = "Curtir";
+                        spanNome.innerHTML = "Autor: <b>" + publicacao.nomeSocial + "</b>";
+                        divDescricao.innerHTML = "Descrição:";
+                        divTexto.innerHTML = "<b>" + publicacao.descricao + "<b>"
                         btnDeletar.innerHTML = "Deletar";
 
                         divPublicacao.className = "publicacao";
-                        spanDtPostagem.id = "Dt_Postagem";
+                        spanDtPostagem.id = "DtPostagem";
                         spanNome.className = "publicacao-nome";
                         spanTitulo.className = "publicacao-titulo";
                         divDescricao.className = "publicacao-descricao";
+                        divTexto.className = "publicacao-texto";
 
                         divButtons.className = "div-buttons"
 
-                        btnCurtir.className = "publicacao-btn-editar"
-                        btnCurtir.id = "btnCurtir" + publicacao.idPostagem;
-                        btnCurtir.setAttribute("onclick", `curtir(${publicacao.idPostagem})`);
+                        labelCurtir.className = "like-label"
+                        labelCurtir.htmlFor = "btnCurtir"
+
+                        i1Curtir.ariaHidden = "true";
+                        i2Curtir.ariaHidden = "true";
+                        i1Curtir.className = "fa fa-heart-o";
+                        i2Curtir.className = "fa fa-heart";
+
+                        btnCurtir.type = "checkbox"
+                        btnCurtir.className = "like-checkbox"
+                        btnCurtir.id = "btnCurtir" + publicacao.idPublicacao;
+                        btnCurtir.setAttribute("onclick", `curtir(${publicacao.idPublicacao})`);
 
                         btnDeletar.className = "publicacao-btn-editar"
-                        btnDeletar.id = "btnDeletar" + publicacao.idPostagem;
-                        btnDeletar.setAttribute("onclick", `deletar(${publicacao.idPostagem})`);
+                        btnDeletar.id = "btnDeletar" + publicacao.idPublicacao;
+                        btnDeletar.setAttribute("onclick", `deletar(${publicacao.idPublicacao})`);
 
-                        divPublicacao.appendChild(DtPostagem);
+
+                        divPublicacao.appendChild(spanDtPostagem);
                         divPublicacao.appendChild(spanNome);
                         divPublicacao.appendChild(spanTitulo);
                         divPublicacao.appendChild(divDescricao);
+                        divDescricao.appendChild(divTexto);
+
                         divPublicacao.appendChild(divButtons);
-                        divButtons.appendChild(btnEditar);
+                        divButtons.appendChild(btnCurtir);
+                        divButtons.appendChild(labelCurtir);
+                        labelCurtir.appendChild(i1Curtir);
+                        labelCurtir.appendChild(i2Curtir);
                         divButtons.appendChild(btnDeletar);
+
                         feed.appendChild(divPublicacao);
                     }
 
@@ -164,5 +192,84 @@
         });
     }
 
+    function plotarGrafico(resposta, idUsuario) {
+        var idUsuario = sessionStorage.ID_USUARIO;
+
+        console.log('iniciando plotagem do gráfico...');
+
+        // Criando estrutura para plotar gráfico - labels
+        let labels = [];
+
+        // Criando estrutura para plotar gráfico - dados
+        let dados = {
+            labels: labels,
+            datasets: [{
+                label: 'Quantidade de Publicação',
+                data: [],
+                fill: false,
+                borderColor: 'rgb(5, 217, 232)',
+                tension: 0.1
+            }]
+        };
+
+        console.log('----------------------------------------------')
+        console.log('Estes dados foram recebidos pela funcao "obterDadosGrafico" e passados para "plotarGrafico":')
+        console.log(resposta)
+
+        // Inserindo valores recebidos em estrutura para plotar o gráfico
+        for (i = 0; i < resposta.length; i++) {
+            var registro = resposta[i];
+            labels.push(registro.DtPostagem);
+            dados.datasets[0].data.push(registro.qtd);
+        }
+
+        console.log('----------------------------------------------')
+        console.log('O gráfico será plotado com os respectivos valores:')
+        console.log('Labels:')
+        console.log(labels)
+        console.log('Dados:')
+        console.log(dados.datasets)
+        console.log('----------------------------------------------')
+
+        // Criando estrutura para plotar gráfico - config
+        const config = {
+            type: 'bar',
+            data: dados,
+        };
+
+        // Adicionando gráfico criado em div na tela
+        let myChart = new Chart(
+            document.getElementById(`myChartCanvas`),
+            config
+        );
+
+    }
+
+    function obterDadosGrafico(idUsuario) {
+        var idUsuario = sessionStorage.ID_USUARIO;
+
+
+        fetch(`/medida/ultimas/${idUsuario}`, { cache: 'no-store' }).then(function (response) {
+            if (response.ok) {
+                response.json().then(function (resposta) {
+                    console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+                    resposta.reverse();
+
+                    plotarGrafico(resposta, idUsuario);
+
+                });
+            } else {
+                console.error('Nenhum dado encontrado ou erro na API');
+            }
+        })
+            .catch(function (error) {
+                console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+            });
+    }
+
+    
+
+    
 </script>
+
 </html>

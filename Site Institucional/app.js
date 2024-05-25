@@ -17,6 +17,7 @@ var app = express();
 
 var usuarioRouter = require("../Site Institucional/src/routes/usuario");
 var publiRouter = require("../Site Institucional/src/routes/publi");
+var medidaRouter = require("../Site Institucional/src/routes/medida");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -24,7 +25,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use(cors());
 
-
+app.use("/medida", medidaRouter);
 app.use("/usuario", usuarioRouter);
 app.use("/publi", publiRouter);
 

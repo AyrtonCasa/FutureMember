@@ -83,7 +83,7 @@
 
 <script>
     
-    b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
+    b_usuario.innerHTML = sessionStorage.NOME_SOCIAL_USUARIO;
 
     function limparFormulario() {
         document.getElementById("form_postagem").reset();
@@ -108,8 +108,11 @@
             console.log("resposta: ", resposta);
 
             if (resposta.ok) {
-                window.alert("Post realizado com sucesso pelo usuario de ID: " + idUsuario + "!");
-                window.location.reload(true);
+                window.alert("Post realizado com sucesso pelo usuario de ID: " + idUsuario + "!")
+                
+                .then(function(){
+                    window.location.reload(true)
+                })
                 
             } else if (resposta.status == 404) {
                 window.alert("Deu 404!");
