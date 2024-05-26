@@ -14,21 +14,23 @@
 </head>
 <!-- validarSessao(), -->
 
-<body onload="atualizarFeed(), obterDadosGrafico()">
+<body onload="atualizarFeed(), obterDadosGrafico(), obterEstatistica()">
 
     <div class="janela" onload="plotarGrafico()">
 
         <div class="Dashboard">
 
             <div id="Dados" class="dado">
-                <div>Dados</div>
-                <div id="gráfico">
+                <div id="estatistica"></div>
+                <div id="gráfico" class="grafico">
                     <canvas id="myChartCanvas"></canvas>
                 </div>
             </div>
+            <div class="div-results">
+                <h1>Suas Postagens</h1>
+                <div id="postagem" class="postagem">
 
-            <div id="postagem" class="postagem">
-                
+                </div>
             </div>
 
         </div>
@@ -72,6 +74,9 @@
         document.getElementById("postagem").reset();
     }
 
+    function obterEstatistica(){
+        
+    }
 
     function deletar(idPublicacao) {
         console.log("Criar função de apagar post escolhido - ID" + idPublicacao);
@@ -113,7 +118,7 @@
 
                     var feed = document.getElementById("postagem");
                     feed.innerHTML = "";
-                    for (let i = resposta.length - 1; i >= 0 ; i--) {
+                    for (let i = resposta.length - 1; i >= 0; i--) {
                         var publicacao = resposta[i];
 
                         // criando e manipulando elementos do HTML via JavaScript
@@ -130,7 +135,7 @@
                         var btnCurtir = document.createElement("input");
                         var btnDeletar = document.createElement("button");
 
-                        
+
                         spanDtPostagem.innerHTML = "Data de Postagem: <b>" + publicacao.DtPostagem + "</b>";
                         spanTitulo.innerHTML = "Título: <b>" + publicacao.titulo + "</b>";
                         spanNome.innerHTML = "Autor: <b>" + publicacao.nomeSocial + "</b>";
@@ -181,14 +186,14 @@
                         feed.appendChild(divPublicacao);
                     }
 
-                    
+
                 });
             } else {
                 throw ('Houve um erro na API!');
             }
         }).catch(function (resposta) {
             console.error(resposta);
-            
+
         });
     }
 
@@ -231,7 +236,7 @@
         console.log(dados.datasets)
         console.log('----------------------------------------------')
 
-        // Criando estrutura para plotar gráfico - config
+        // Criando estrutura \para plotar gráfico - config
         const config = {
             type: 'bar',
             data: dados,
@@ -267,9 +272,9 @@
             });
     }
 
-    
 
-    
+
+
 </script>
 
 </html>

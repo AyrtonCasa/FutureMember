@@ -115,19 +115,21 @@ body {
   padding: 10px;
     width: 100%;
     height: 60px;
-    color: #ffffff;
+    color: #000;
     display: flex;
     align-items: center;
     justify-content: end;
 
 }
 
+
+
 .div-buttons>* {
-  margin-left: 30px;
+  margin-left: 10px;
 }
 
 .like-checkbox {
-  display: none;
+  display: block;
 }
 .like-label {
   position: relative;
@@ -135,6 +137,8 @@ body {
   width: 50px;
   height: 50px;
   cursor: pointer;
+
+  color: #000;
 }
 .like-label i {
   position: absolute;

@@ -88,6 +88,50 @@ function publicar(req, res) {
     }
 }
 
+function curtir(req, res) {
+    var idPublicacao = req.params.idPublicacao;
+    var idUsuario = req.params.idUsuario;
+
+    publiModel.curtir(idPublicacao, idUsuario)
+        .then(
+            function (resultado) {
+                res.json(resultado);
+            }
+        )
+        .catch(
+            function (erro) {
+                console.log(erro);
+                console.log("Houve um erro ao curtir o post: ", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            }
+        );
+}
+
+function VerCurtida(req, res) {
+    var idUsuario = req.body.idUsuarioServer;
+    var idPublicacao = req.body.idPublicacaoServer;
+
+
+    console.log(`Id Usuario: ${idUsuario}; Id Publicacao: ${idPublicacao}`)
+
+    publiModel.VerCurtida(idPublicacao, idUsuario)
+        .then(
+            function (resultado) {
+                console.log(resultado)
+                if(resultado.length == 0){
+                    res.json('nenhuma');
+                }else
+                res.json(resultado);
+            }
+        )
+        .catch(
+            function (erro) {
+                console.log(erro);
+                console.log("Houve um erro em achar as curtidas: ", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            }
+        );
+}
 
 function deletar(req, res) {
     var idPublicacao = req.params.idPublicacao;
@@ -112,5 +156,7 @@ module.exports = {
     listarPorUsuario,
     pesquisarDescricao,
     publicar,
-    deletar
+    deletar,
+    curtir,
+    VerCurtida
 }

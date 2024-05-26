@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="ptbr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Postagens</title>
     <link rel="stylesheet" href="css/CssMural.css">
-    <script src="js/script.js"></script>
+
 </head>
 <!-- validarSessao(), -->
+
 <body onload=" atualizarFeed()" style="background-color: #161618;">
 
     <div class="janela">
@@ -46,7 +48,7 @@
                 <div class="container">
                     <h1>Publique o que você achou</h1>
                     <div class="div-form">
-                        <form id="form_postagem" method="post" >
+                        <form id="form_postagem" method="post">
                             <label>
                                 Título:
                                 <br>
@@ -82,7 +84,7 @@
 </html>
 
 <script>
-    
+
     b_usuario.innerHTML = sessionStorage.NOME_SOCIAL_USUARIO;
 
     function limparFormulario() {
@@ -109,11 +111,11 @@
 
             if (resposta.ok) {
                 window.alert("Post realizado com sucesso pelo usuario de ID: " + idUsuario + "!")
-                
-                .then(function(){
-                    window.location.reload(true)
-                })
-                
+
+                    .then(function () {
+                        window.location.reload(true)
+                    })
+
             } else if (resposta.status == 404) {
                 window.alert("Deu 404!");
             } else {
@@ -121,7 +123,7 @@
             }
         }).catch(function (resposta) {
             console.log(`#ERRO: ${resposta}`);
-            
+
         });
 
         return false;
@@ -151,6 +153,73 @@
         });
     }
 
+    var texto = []
+
+    function obterEstatistica(idPublicacao, botao) {
+        var idUsuario = sessionStorage.ID_USUARIO;
+
+        fetch(`/publi/VerCurtida`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                idPublicacaoServer: idPublicacao,
+                idUsuarioServer: idUsuario,
+            }),
+        }).then(function (response) {
+            if (response.ok) {
+                response.json().then(function (resposta) {
+                    console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+
+                    texto.push(resposta);
+                    console.log(idPublicacao)
+
+                    var BUTAO = document.getElementById("btnCurtir" + idPublicacao)
+                    if (resposta == 'nenhuma') {
+                        BUTAO.checked = false;
+                    } else {
+                        BUTAO.checked = true;
+                    }
+
+                });
+            } else {
+                console.error('Nenhum dado encontrado ou erro na API');
+            }
+        })
+            .catch(function (error) {
+                console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+            });
+    }
+
+    function curtir(idPublicacao) {
+        var idUsuario = sessionStorage.ID_USUARIO;
+
+        fetch(`/publi/curtir/${idPublicacao}/${idUsuario}`, {
+            method: "post",
+            headers: {
+                "Content-Type": "application/json"
+            },
+        }).then(function (resposta) {
+
+            console.log("resposta: ", resposta);
+
+            if (resposta.ok) {
+                alert("Curtida efetuada")
+            } else if (resposta.status == 404) {
+                window.alert("Deu 404!");
+            } else {
+                throw ("Houve um erro ao tentar realizar a postagem! Código da resposta: " + resposta.status);
+            }
+        }).catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+
+        });
+
+        return false;
+
+    }
+
     function atualizarFeed() {
         fetch("/publi/listar").then(function (resposta) {
             if (resposta.ok) {
@@ -167,8 +236,11 @@
 
                     var feed = document.getElementById("feed_container");
                     feed.innerHTML = "";
-                    for (let i = resposta.length - 1; i >= 0 ; i--) {
+
+                    for (let i = resposta.length - 1; i >= 0; i--) {
                         var publicacao = resposta[i];
+                        var idPublicacao = publicacao.idPublicacao;
+
 
                         // criando e manipulando elementos do HTML via JavaScript
                         var divPublicacao = document.createElement("div");
@@ -178,19 +250,17 @@
                         var spanNome = document.createElement("span");
                         var divDescricao = document.createElement("div");
                         var divButtons = document.createElement("div");
-                        var labelCurtir = document.createElement("label");
-                        var i1Curtir = document.createElement("i");
-                        var i2Curtir = document.createElement("i");
+                        var spanCurtir = document.createElement("span");
                         var btnCurtir = document.createElement("input");
-                        var btnDeletar = document.createElement("button");
 
-                        
+
                         spanDtPostagem.innerHTML = "Data de Postagem: <b>" + publicacao.DtPostagem + "</b>";
                         spanTitulo.innerHTML = "Título: <b>" + publicacao.titulo + "</b>";
                         spanNome.innerHTML = "Autor: <b>" + publicacao.nomeSocial + "</b>";
                         divDescricao.innerHTML = "Descrição:";
                         divTexto.innerHTML = "<b>" + publicacao.descricao + "<b>"
-                        btnDeletar.innerHTML = "Deletar";
+                        spanCurtir.innerHTML = "<b>Curtir<b>"
+
 
                         divPublicacao.className = "publicacao";
                         spanDtPostagem.id = "DtPostagem";
@@ -199,24 +269,12 @@
                         divDescricao.className = "publicacao-descricao";
                         divTexto.className = "publicacao-texto";
 
-                        divButtons.className = "div-buttons"
+                        divButtons.className = "div-buttons";
 
-                        labelCurtir.className = "like-label"
-                        labelCurtir.htmlFor = "btnCurtir"
-
-                        i1Curtir.ariaHidden = "true";
-                        i2Curtir.ariaHidden = "true";
-                        i1Curtir.className = "fa fa-heart-o";
-                        i2Curtir.className = "fa fa-heart";
-
-                        btnCurtir.type = "checkbox"
-                        btnCurtir.className = "like-checkbox"
+                        btnCurtir.type = "checkbox";
+                        btnCurtir.className = "like-checkbox";
                         btnCurtir.id = "btnCurtir" + publicacao.idPublicacao;
                         btnCurtir.setAttribute("onclick", `curtir(${publicacao.idPublicacao})`);
-
-                        btnDeletar.className = "publicacao-btn-editar"
-                        btnDeletar.id = "btnDeletar" + publicacao.idPublicacao;
-                        btnDeletar.setAttribute("onclick", `deletar(${publicacao.idPublicacao})`);
 
 
                         divPublicacao.appendChild(spanDtPostagem);
@@ -226,25 +284,28 @@
                         divDescricao.appendChild(divTexto);
 
                         divPublicacao.appendChild(divButtons);
+                        divButtons.appendChild(spanCurtir);
                         divButtons.appendChild(btnCurtir);
-                        divButtons.appendChild(labelCurtir);
-                        labelCurtir.appendChild(i1Curtir);
-                        labelCurtir.appendChild(i2Curtir);
-                        divButtons.appendChild(btnDeletar);
+
 
                         feed.appendChild(divPublicacao);
+
+                        obterEstatistica(idPublicacao, (btnCurtir.id+1))
                     }
 
-                    
+
+
+
                 });
             } else {
                 throw ('Houve um erro na API!');
             }
         }).catch(function (resposta) {
             console.error(resposta);
-            
+
         });
     }
 
 </script>
+
 </html>
