@@ -98,13 +98,13 @@ body {
 
 .div-results {
   width: 100%;
+
 }
 
 .div-results .feed-container {
   background-color: #ffee58;
   border-radius: 5px;
   margin-bottom: 80px;
-
 
 }
 
@@ -126,39 +126,6 @@ body {
 
 .div-buttons>* {
   margin-left: 10px;
-}
-
-.like-checkbox {
-  display: block;
-}
-.like-label {
-  position: relative;
-  display: block;
-  width: 50px;
-  height: 50px;
-  cursor: pointer;
-
-  color: #000;
-}
-.like-label i {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  margin: auto;
-  font-size: 30px;
-  transition: color 0.3s ease, opacity 0.3s ease;
-}
-.like-label .fa-heart {
-  color: #ff0000;
-  opacity: 0;
-}
-.like-checkbox:checked + .like-label .fa-heart-o {
-  opacity: 0;
-}
-.like-checkbox:checked + .like-label .fa-heart {
-  opacity: 1;
 }
 
 /* #endregion */

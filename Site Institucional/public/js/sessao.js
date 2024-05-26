@@ -8,11 +8,11 @@ function validarSessao() {
     if (email != null && nome != null) {
         b_usuario.innerHTML = nome;
     } else {
-        window.location.ref = "login.html";
+        window.location.ref = "Login.html";
     }
 }
 
 function limparSessao() {
     sessionStorage.clear();
-    window.location.ref = "login.html";
+    window.location.ref = "Login.html";
 }

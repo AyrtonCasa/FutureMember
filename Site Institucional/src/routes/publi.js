@@ -43,7 +43,7 @@ router.post("/VerCurtida/", function (req, res) {
     // }
 });
 
-router.delete("/deletar/:idPublicacao", function (req, res) {
+router.delete("/deletarCurtida/:idPublicacao/:idUsuario", function (req, res) {
     publiController.deletar(req, res);
 });
 

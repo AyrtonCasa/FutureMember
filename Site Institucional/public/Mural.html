@@ -87,6 +87,11 @@
 
     b_usuario.innerHTML = sessionStorage.NOME_SOCIAL_USUARIO;
 
+    function limparSessao() {
+    sessionStorage.clear();
+    window.location.href = "Login.html";
+}
+
     function limparFormulario() {
         document.getElementById("form_postagem").reset();
     }
@@ -110,11 +115,8 @@
             console.log("resposta: ", resposta);
 
             if (resposta.ok) {
-                window.alert("Post realizado com sucesso pelo usuario de ID: " + idUsuario + "!")
-
-                    .then(function () {
-                        window.location.reload(true)
-                    })
+                window.alert("Post realizado com sucesso!")
+                window.location.reload(true)
 
             } else if (resposta.status == 404) {
                 window.alert("Deu 404!");
@@ -194,6 +196,29 @@
 
     function curtir(idPublicacao) {
         var idUsuario = sessionStorage.ID_USUARIO;
+        var BUTAO = document.getElementById("btnCurtir" + idPublicacao)
+
+        if(BUTAO.checked == false){
+            console.log("Criar função de apagar post escolhido - ID" + idPublicacao);
+        fetch(`/publi/deletarCurtida/${idPublicacao}/${idUsuario}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then(function (resposta) {
+
+            if (resposta.ok) {
+                window.alert("Post deletado com sucesso pelo usuario de email: " + sessionStorage.getItem("EMAIL_USUARIO") + "!");
+                window.location.reload(true);
+            } else if (resposta.status == 404) {
+                window.alert("Deu 404!");
+            } else {
+                throw ("Houve um erro ao tentar realizar a postagem! Código da resposta: " + resposta.status);
+            }
+        }).catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+        });
+        }else
 
         fetch(`/publi/curtir/${idPublicacao}/${idUsuario}`, {
             method: "post",
@@ -206,6 +231,7 @@
 
             if (resposta.ok) {
                 alert("Curtida efetuada")
+                window.location.reload(true)
             } else if (resposta.status == 404) {
                 window.alert("Deu 404!");
             } else {
@@ -244,7 +270,11 @@
 
                         // criando e manipulando elementos do HTML via JavaScript
                         var divPublicacao = document.createElement("div");
-                        var spanDtPostagem = document.createElement("span");
+
+                        var data = new Date(publicacao.DtPostagem);
+                        var dataFormat = data.toLocaleString('pt-BR');
+                        var spanDtPostagem = document.createElement("span")
+
                         var divTexto = document.createElement("div");
                         var spanTitulo = document.createElement("span");
                         var spanNome = document.createElement("span");
@@ -252,17 +282,20 @@
                         var divButtons = document.createElement("div");
                         var spanCurtir = document.createElement("span");
                         var btnCurtir = document.createElement("input");
+                        var qtdCurtir = document.createElement("span");
 
 
-                        spanDtPostagem.innerHTML = "Data de Postagem: <b>" + publicacao.DtPostagem + "</b>";
+                        spanDtPostagem.innerHTML = "Data de Postagem: <b>" + dataFormat + "</b>";
                         spanTitulo.innerHTML = "Título: <b>" + publicacao.titulo + "</b>";
                         spanNome.innerHTML = "Autor: <b>" + publicacao.nomeSocial + "</b>";
                         divDescricao.innerHTML = "Descrição:";
-                        divTexto.innerHTML = "<b>" + publicacao.descricao + "<b>"
-                        spanCurtir.innerHTML = "<b>Curtir<b>"
+                        divTexto.innerHTML = "<b>" + publicacao.descricao + "<b>";
+                        spanCurtir.innerHTML = "<b>Curtir<b>";
+                        qtdCurtir.innerHTML = publicacao.qtd;
 
 
                         divPublicacao.className = "publicacao";
+
                         spanDtPostagem.id = "DtPostagem";
                         spanNome.className = "publicacao-nome";
                         spanTitulo.className = "publicacao-titulo";
@@ -284,6 +317,7 @@
                         divDescricao.appendChild(divTexto);
 
                         divPublicacao.appendChild(divButtons);
+                        divButtons.appendChild(qtdCurtir);
                         divButtons.appendChild(spanCurtir);
                         divButtons.appendChild(btnCurtir);
 

@@ -135,8 +135,9 @@ function VerCurtida(req, res) {
 
 function deletar(req, res) {
     var idPublicacao = req.params.idPublicacao;
+    var idUsuario = req.params.idUsuario
 
-    publiModel.deletar(idPublicacao)
+    publiModel.deletar(idPublicacao, idUsuario)
         .then(
             function (resultado) {
                 res.json(resultado);

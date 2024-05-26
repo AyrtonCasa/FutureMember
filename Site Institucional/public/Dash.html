@@ -14,7 +14,7 @@
 </head>
 <!-- validarSessao(), -->
 
-<body onload="atualizarFeed(), obterDadosGrafico(), obterEstatistica()">
+<body onload="atualizarFeed(), obterDadosGrafico()">
 
     <div class="janela" onload="plotarGrafico()">
 
@@ -23,6 +23,7 @@
             <div id="Dados" class="dado">
                 <div id="estatistica"></div>
                 <div id="gráfico" class="grafico">
+                    <h1>Gráfico de Publicações por Dia</h1>
                     <canvas id="myChartCanvas"></canvas>
                 </div>
             </div>
@@ -38,16 +39,10 @@
         <div class="header-right">
 
             <div class="hello">
-                <h3>Olá, <span id="b_usuario">usuário</span>!</h3>
+                <h1>Olá, <span id="b_usuario">usuário</span>!</h1>
             </div>
 
-            <div class="btn-nav-white">
-                <a href="cards.html">
-                    <h3>Edição de Perfil</h3>
-                </a>
-            </div>
-
-            <div class="btn-nav" onclick="">
+            <div class="btn-nav" onclick="mural()">
                 <h3>Mural de Postagens</h3>
             </div>
 
@@ -69,13 +64,105 @@
 
     b_usuario.innerHTML = sessionStorage.NOME_SOCIAL_USUARIO;
 
+    function limparSessao() {
+    sessionStorage.clear();
+    window.location.href = "Login.html";
+    }
+
+    function mural(){
+        window.location.href = "Mural.html"
+    }
 
     function limparFormulario() {
         document.getElementById("postagem").reset();
     }
 
-    function obterEstatistica(){
-        
+    function curtir(idPublicacao) {
+        var idUsuario = sessionStorage.ID_USUARIO;
+        var BUTAO = document.getElementById("btnCurtir" + idPublicacao)
+
+        if(BUTAO.checked == false){
+            console.log("Criar função de apagar post escolhido - ID" + idPublicacao);
+        fetch(`/publi/deletarCurtida/${idPublicacao}/${idUsuario}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then(function (resposta) {
+
+            if (resposta.ok) {
+                window.alert("Curtida retirada!");
+                window.location.reload(true);
+            } else if (resposta.status == 404) {
+                window.alert("Deu 404!");
+            } else {
+                throw ("Houve um erro ao tentar realizar a postagem! Código da resposta: " + resposta.status);
+            }
+        }).catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+        });
+        }else
+
+        fetch(`/publi/curtir/${idPublicacao}/${idUsuario}`, {
+            method: "post",
+            headers: {
+                "Content-Type": "application/json"
+            },
+        }).then(function (resposta) {
+
+            console.log("resposta: ", resposta);
+
+            if (resposta.ok) {
+                alert("Curtida efetuada!")
+                window.location.reload(true)
+            } else if (resposta.status == 404) {
+                window.alert("Deu 404!");
+            } else {
+                throw ("Houve um erro ao tentar realizar a postagem! Código da resposta: " + resposta.status);
+            }
+        }).catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+
+        });
+
+        return false;
+
+    }
+
+    function obterEstatistica(idPublicacao, botao) {
+        var idUsuario = sessionStorage.ID_USUARIO;
+
+        fetch(`/publi/VerCurtida`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                idPublicacaoServer: idPublicacao,
+                idUsuarioServer: idUsuario,
+            }),
+        }).then(function (response) {
+            if (response.ok) {
+                response.json().then(function (resposta) {
+                    console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+
+                    console.log(idPublicacao)
+
+                    var BUTAO = document.getElementById("btnCurtir" + idPublicacao)
+                    if (resposta == 'nenhuma') {
+                        BUTAO.checked = false;
+                    } else {
+                        BUTAO.checked = true;
+                    }
+
+                });
+            } else {
+                console.error('Nenhum dado encontrado ou erro na API');
+            }
+        })
+            .catch(function (error) {
+                console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+            });
     }
 
     function deletar(idPublicacao) {
@@ -118,56 +205,52 @@
 
                     var feed = document.getElementById("postagem");
                     feed.innerHTML = "";
+
                     for (let i = resposta.length - 1; i >= 0; i--) {
                         var publicacao = resposta[i];
+                        var idPublicacao = publicacao.idPublicacao;
+
 
                         // criando e manipulando elementos do HTML via JavaScript
                         var divPublicacao = document.createElement("div");
-                        var spanDtPostagem = document.createElement("span");
+
+                        var data = new Date(publicacao.DtPostagem);
+                        var dataFormat = data.toLocaleString('pt-BR');
+                        var spanDtPostagem = document.createElement("span")
+
                         var divTexto = document.createElement("div");
                         var spanTitulo = document.createElement("span");
                         var spanNome = document.createElement("span");
                         var divDescricao = document.createElement("div");
                         var divButtons = document.createElement("div");
-                        var labelCurtir = document.createElement("label");
-                        var i1Curtir = document.createElement("i");
-                        var i2Curtir = document.createElement("i");
+                        var spanCurtir = document.createElement("span");
                         var btnCurtir = document.createElement("input");
-                        var btnDeletar = document.createElement("button");
+                        var qtdCurtir = document.createElement("span");
 
 
-                        spanDtPostagem.innerHTML = "Data de Postagem: <b>" + publicacao.DtPostagem + "</b>";
+                        spanDtPostagem.innerHTML = "Data de Postagem: <b>" + dataFormat + "</b>";
                         spanTitulo.innerHTML = "Título: <b>" + publicacao.titulo + "</b>";
                         spanNome.innerHTML = "Autor: <b>" + publicacao.nomeSocial + "</b>";
                         divDescricao.innerHTML = "Descrição:";
-                        divTexto.innerHTML = "<b>" + publicacao.descricao + "<b>"
-                        btnDeletar.innerHTML = "Deletar";
+                        divTexto.innerHTML = "<b>" + publicacao.descricao + "<b>";
+                        spanCurtir.innerHTML = "<b>Curtir<b>";
+                        qtdCurtir.innerHTML = publicacao.qtd;
+
 
                         divPublicacao.className = "publicacao";
+
                         spanDtPostagem.id = "DtPostagem";
                         spanNome.className = "publicacao-nome";
                         spanTitulo.className = "publicacao-titulo";
                         divDescricao.className = "publicacao-descricao";
                         divTexto.className = "publicacao-texto";
 
-                        divButtons.className = "div-buttons"
+                        divButtons.className = "div-buttons";
 
-                        labelCurtir.className = "like-label"
-                        labelCurtir.htmlFor = "btnCurtir"
-
-                        i1Curtir.ariaHidden = "true";
-                        i2Curtir.ariaHidden = "true";
-                        i1Curtir.className = "fa fa-heart-o";
-                        i2Curtir.className = "fa fa-heart";
-
-                        btnCurtir.type = "checkbox"
-                        btnCurtir.className = "like-checkbox"
+                        btnCurtir.type = "checkbox";
+                        btnCurtir.className = "like-checkbox";
                         btnCurtir.id = "btnCurtir" + publicacao.idPublicacao;
                         btnCurtir.setAttribute("onclick", `curtir(${publicacao.idPublicacao})`);
-
-                        btnDeletar.className = "publicacao-btn-editar"
-                        btnDeletar.id = "btnDeletar" + publicacao.idPublicacao;
-                        btnDeletar.setAttribute("onclick", `deletar(${publicacao.idPublicacao})`);
 
 
                         divPublicacao.appendChild(spanDtPostagem);
@@ -177,13 +260,14 @@
                         divDescricao.appendChild(divTexto);
 
                         divPublicacao.appendChild(divButtons);
+                        divButtons.appendChild(qtdCurtir);
+                        divButtons.appendChild(spanCurtir);
                         divButtons.appendChild(btnCurtir);
-                        divButtons.appendChild(labelCurtir);
-                        labelCurtir.appendChild(i1Curtir);
-                        labelCurtir.appendChild(i2Curtir);
-                        divButtons.appendChild(btnDeletar);
+
 
                         feed.appendChild(divPublicacao);
+
+                        obterEstatistica(idPublicacao, (btnCurtir.id+1))
                     }
 
 
@@ -212,7 +296,7 @@
                 label: 'Quantidade de Publicação',
                 data: [],
                 fill: false,
-                borderColor: 'rgb(5, 217, 232)',
+                backgroundColor: 'rgb(5, 217, 232)',
                 tension: 0.1
             }]
         };
