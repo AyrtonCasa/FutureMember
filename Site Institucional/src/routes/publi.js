@@ -44,7 +44,11 @@ router.post("/VerCurtida/", function (req, res) {
 });
 
 router.delete("/deletarCurtida/:idPublicacao/:idUsuario", function (req, res) {
-    publiController.deletar(req, res);
+    publiController.deletarCurtida(req, res);
+});
+
+router.delete("/deletarPublicacao/:idPublicacao/:idUsuario", function (req, res) {
+    publiController.deletarPublicacao(req, res);
 });
 
 module.exports = router;

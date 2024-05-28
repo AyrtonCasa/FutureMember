@@ -82,9 +82,11 @@ function entrar() {
                     sessionStorage.NOME_SOCIAL_USUARIO = json.nomeSocial;
                     sessionStorage.DATA_NASCIMENTO = json.DtNasc; 
 
+                    div_mensagem.innerHTML = "Login feito com sucesso."
+
                     setTimeout(function () {
                         window.location.href = "Mural.html"; // pagina depois do login (tem que fazer ainda)
-                    }, 1000); // apenas para exibir o loading
+                    }, 3000); // apenas para exibir o loading
 
                 });
 

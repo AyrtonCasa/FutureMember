@@ -133,11 +133,30 @@ function VerCurtida(req, res) {
         );
 }
 
-function deletar(req, res) {
+function deletarCurtida(req, res) {
     var idPublicacao = req.params.idPublicacao;
     var idUsuario = req.params.idUsuario
 
-    publiModel.deletar(idPublicacao, idUsuario)
+    publiModel.deletarCurtida(idPublicacao, idUsuario)
+        .then(
+            function (resultado) {
+                res.json(resultado);
+            }
+        )
+        .catch(
+            function (erro) {
+                console.log(erro);
+                console.log("Houve um erro ao deletar o post: ", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            }
+        );
+}
+
+function deletarPublicacao(req, res) {
+    var idPublicacao = req.params.idPublicacao;
+    var idUsuario = req.params.idUsuario
+
+    publiModel.deletarPublicacao(idPublicacao, idUsuario)
         .then(
             function (resultado) {
                 res.json(resultado);
@@ -157,7 +176,8 @@ module.exports = {
     listarPorUsuario,
     pesquisarDescricao,
     publicar,
-    deletar,
+    deletarCurtida,
+    deletarPublicacao,
     curtir,
     VerCurtida
 }

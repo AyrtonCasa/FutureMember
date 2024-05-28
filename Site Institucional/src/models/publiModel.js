@@ -116,7 +116,7 @@ function VerCurtida(idPublicacao, idUsuario) {
     return database.executar(instrucaoSql);
 }
 
-function deletar(idPublicacao, idUsuario) {
+function deletarCurtida(idPublicacao, idUsuario) {
     console.log("ACESSEI O AVISO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function deletar():", idPublicacao, idUsuario);
     var instrucaoSql = `
         DELETE FROM curtida WHERE fkPublicacao = ${idPublicacao} and fkUsuario = ${idUsuario};
@@ -125,12 +125,41 @@ function deletar(idPublicacao, idUsuario) {
     return database.executar(instrucaoSql);
 }
 
+function deletarPublicacao(idPublicacao, idUsuario) {
+    
+    var instrucaoSqlTirarCurtida = `
+    DELETE FROM curtida WHERE curtida.fkPublicacao = ${idPublicacao} AND idCurtida = 1;
+    `;
+    console.log("Executando a instrução SQL: \n" + instrucaoSqlTirarCurtida);
+    
+    return database.executar(instrucaoSqlTirarCurtida)
+    
+    .then(result => {
+        console.log("Publicação deletada com sucesso. Resultado:", result);
+        console.log("ACESSEI O AVISO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function deletar():", idPublicacao, idUsuario);
+        var instrucaoSql = `
+            DELETE FROM publicacao WHERE idPublicacao = ${idPublicacao} and fkDono = ${idUsuario};
+        `;
+        console.log("Executando a instrução SQL: \n" + instrucaoSql);
+        return database.executar(instrucaoSql)
+    })
+    .then(result => {
+        console.log("Curtidas removidas com sucesso. Resultado:", result);
+        return result;
+    })
+    .catch(erro => {
+        console.error("Erro ao deletar publicação ou remover curtidas:", erro);
+        throw erro;
+    });
+}
+
 module.exports = {
     listar,
     listarPorUsuario,
     pesquisarDescricao,
     publicar,
-    deletar,
+    deletarCurtida,
+    deletarPublicacao,
     curtir,
     VerCurtida
 }
