@@ -48,7 +48,7 @@
                 <div class="container">
                     <h1>Publique o que você achou</h1>
                     <div class="div-form">
-                        <form id="form_postagem" method="post">
+                        <form id="form_postagem">
                             <label>
                                 Título:
                                 <br>
@@ -105,7 +105,7 @@
         }
 
         fetch(`/publi/publicar/${idUsuario}`, {
-            method: "post",
+            method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
@@ -116,7 +116,7 @@
 
             if (resposta.ok) {
                 window.alert("Post realizado com sucesso!")
-                window.location.reload(true)
+                // window.location.reload(true)
 
             } else if (resposta.status == 404) {
                 window.alert("Deu 404!");
