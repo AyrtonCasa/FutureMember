@@ -215,7 +215,13 @@
                         var divPublicacao = document.createElement("div");
 
                         var data = new Date(publicacao.DtPostagem);
-                        var dataFormat = data.toLocaleString('pt-BR');
+                        
+                        var ano = data.getFullYear();
+                        var mes = (data.getMonth() + 1).toString().padStart(2, '0');
+                        var dia = data.getDate().toString().padStart(2, '0');
+                        console.log(`Post: ${publicacao.Titulo}, Data: ${ano}-${mes}-${dia}`);
+                        
+                        var dataFormat = `${dia}/${mes}/${ano}`;
                         var spanDtPostagem = document.createElement("span")
 
                         var divTexto = document.createElement("div");
@@ -334,7 +340,15 @@
         // Inserindo valores recebidos em estrutura para plotar o gráfico
         for (i = 0; i < resposta.length; i++) {
             var registro = resposta[i];
-            labels.push(registro.DtPostagem);
+
+            var dataPost = new Date(registro.DtPostagem);
+                    var ano = dataPost.getFullYear();
+                    var mes = (dataPost.getMonth() + 1).toString().padStart(2, '0');
+                    var dia = dataPost.getDate().toString().padStart(2, '0');
+                    console.log(`Post: ${registro.Titulo}, Data: ${ano}-${mes}-${dia}`);
+
+            var DataCompleta = `${dia}/${mes}/${ano}`
+            labels.push(DataCompleta);
             dados.datasets[0].data.push(registro.qtd);
         }
 

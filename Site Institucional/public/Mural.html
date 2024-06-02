@@ -88,9 +88,9 @@
     b_usuario.innerHTML = sessionStorage.NOME_SOCIAL_USUARIO;
 
     function limparSessao() {
-    sessionStorage.clear();
-    window.location.href = "Login.html";
-}
+        sessionStorage.clear();
+        window.location.href = "Login.html";
+    }
 
     function limparFormulario() {
         document.getElementById("form_postagem").reset();
@@ -116,8 +116,6 @@
 
             if (resposta.ok) {
                 window.alert("Post realizado com sucesso!")
-                // window.location.reload(true)
-
             } else if (resposta.status == 404) {
                 window.alert("Deu 404!");
             } else {
@@ -175,49 +173,49 @@
         var idUsuario = sessionStorage.ID_USUARIO;
         var BUTAO = document.getElementById("btnCurtir" + idPublicacao)
 
-        if(BUTAO.checked == false){
+        if (BUTAO.checked == false) {
             console.log("Criar função de apagar post escolhido - ID" + idPublicacao);
-        fetch(`/publi/deletarCurtida/${idPublicacao}/${idUsuario}`, {
-            method: "DELETE",
-            headers: {
-                "Content-Type": "application/json"
-            }
-        }).then(function (resposta) {
+            fetch(`/publi/deletarCurtida/${idPublicacao}/${idUsuario}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            }).then(function (resposta) {
 
-            if (resposta.ok) {
-                window.alert("Post deletado com sucesso pelo usuario de email: " + sessionStorage.getItem("EMAIL_USUARIO") + "!");
-                window.location.reload(true);
-            } else if (resposta.status == 404) {
-                window.alert("Deu 404!");
-            } else {
-                throw ("Houve um erro ao tentar realizar a postagem! Código da resposta: " + resposta.status);
-            }
-        }).catch(function (resposta) {
-            console.log(`#ERRO: ${resposta}`);
-        });
-        }else
+                if (resposta.ok) {
+                    window.alert("Post deletado com sucesso pelo usuario de email: " + sessionStorage.getItem("EMAIL_USUARIO") + "!");
+                    window.location.reload(true);
+                } else if (resposta.status == 404) {
+                    window.alert("Deu 404!");
+                } else {
+                    throw ("Houve um erro ao tentar realizar a postagem! Código da resposta: " + resposta.status);
+                }
+            }).catch(function (resposta) {
+                console.log(`#ERRO: ${resposta}`);
+            });
+        } else
 
-        fetch(`/publi/curtir/${idPublicacao}/${idUsuario}`, {
-            method: "post",
-            headers: {
-                "Content-Type": "application/json"
-            },
-        }).then(function (resposta) {
+            fetch(`/publi/curtir/${idPublicacao}/${idUsuario}`, {
+                method: "post",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+            }).then(function (resposta) {
 
-            console.log("resposta: ", resposta);
+                console.log("resposta: ", resposta);
 
-            if (resposta.ok) {
-                alert("Curtida efetuada")
-                window.location.reload(true)
-            } else if (resposta.status == 404) {
-                window.alert("Deu 404!");
-            } else {
-                throw ("Houve um erro ao tentar realizar a postagem! Código da resposta: " + resposta.status);
-            }
-        }).catch(function (resposta) {
-            console.log(`#ERRO: ${resposta}`);
+                if (resposta.ok) {
+                    alert("Curtida efetuada")
+                    window.location.reload(true)
+                } else if (resposta.status == 404) {
+                    window.alert("Deu 404!");
+                } else {
+                    throw ("Houve um erro ao tentar realizar a postagem! Código da resposta: " + resposta.status);
+                }
+            }).catch(function (resposta) {
+                console.log(`#ERRO: ${resposta}`);
 
-        });
+            });
 
         return false;
 
@@ -249,8 +247,14 @@
                         var divPublicacao = document.createElement("div");
 
                         var data = new Date(publicacao.DtPostagem);
-                        var dataFormat = data.toLocaleString('pt-BR');
-                        var spanDtPostagem = document.createElement("span")
+
+                        var ano = data.getFullYear();
+                        var mes = (data.getMonth() + 1).toString().padStart(2, '0');
+                        var dia = data.getDate().toString().padStart(2, '0');
+                        console.log(`Post: ${publicacao.Titulo}, Data: ${ano}-${mes}-${dia}`);
+                        
+                        var dataFormat = `${dia}/${mes}/${ano}`;
+                        var spanDtPostagem = document.createElement("span");
 
                         var divTexto = document.createElement("div");
                         var spanTitulo = document.createElement("span");
@@ -301,7 +305,7 @@
 
                         feed.appendChild(divPublicacao);
 
-                        obterEstatistica(idPublicacao, (btnCurtir.id+1))
+                        obterEstatistica(idPublicacao, (btnCurtir.id + 1))
                     }
 
 

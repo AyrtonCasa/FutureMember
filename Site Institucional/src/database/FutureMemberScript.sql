@@ -19,7 +19,7 @@ create table publicacao(
 idPublicacao int primary key auto_increment,
 Titulo varchar(45),
 Descricao varchar(250),
-DtPostagem timestamp not null default current_timestamp,
+DtPostagem date,
 fkDono int,
 foreign key (fkDono) references usuario(idUsuario)
 );
@@ -32,7 +32,7 @@ foreign key (fkUsuario) references usuario(idUsuario),
 fkPublicacao int,
 foreign key (fkPublicacao) references publicacao(idPublicacao),
 primary key (fkUsuario, fkPublicacao, idCurtida),
-dataCurtida timestamp not null default current_timestamp
+dataCurtida date
 );
 
 
