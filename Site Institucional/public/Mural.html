@@ -6,11 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Postagens</title>
     <link rel="stylesheet" href="css/CssMural.css">
+    <script src="js/sessao.js"></script>
 
 </head>
-<!-- validarSessao(), -->
 
-<body onload=" atualizarFeed()" style="background-color: #161618;">
+
+<body onload="validarSessao(), atualizarFeed()" style="background-color: #161618;">
 
     <div class="janela">
 
@@ -130,7 +131,6 @@
 
     }
 
-    var texto = []
 
     function obterEstatistica(idPublicacao, botao) {
         var idUsuario = sessionStorage.ID_USUARIO;
@@ -149,8 +149,7 @@
                 response.json().then(function (resposta) {
                     console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
 
-                    texto.push(resposta);
-                    console.log(idPublicacao)
+                    console.log(idPublicacao);
 
                     var BUTAO = document.getElementById("btnCurtir" + idPublicacao)
                     if (resposta == 'nenhuma') {
