@@ -26,12 +26,12 @@
 
             <div class="btn-nav-white">
                 <a href="Dash.html">
-                    <h3>Seu Perfil</h3>
+                    <h3>Perfil</h3>
                 </a>
             </div>
 
-            <div class="btn-nav">
-                <h3>Mural de Postagens</h3>
+            <div id="div_mural" onmouseover="pag_atual()" onmouseleave="limpar()" class="btn-nav">
+                <h3>Página atual:</h3>
             </div>
 
             <div class="btn-logout" onclick="limparSessao()">
@@ -50,21 +50,23 @@
                     <h1>Publique o que você achou</h1>
                     <div class="div-form">
                         <form id="form_postagem">
+                            <div class="digite_algo">
                             <label>
-                                Título:
+                                <b>Título:</b>
                                 <br>
                                 <input name="titulo" id="titulo" maxlength="100" type="text">
                             </label>
                             <br>
                             <br>
                             <label>
-                                Descrição (máximo de 250 caracteres):
+                                <b>Descrição (máximo de 250 caracteres):</b>
                                 <br>
                                 <textarea name="descricao" id="textarea_descricao" maxlength="250" rows="5"></textarea>
                             </label>
                             <br>
                             <br>
                             <button onclick="publicar()">Enviar</button>
+                        </div>
                         </form>
                     </div>
                     <h1>Postagens</h1>
@@ -182,7 +184,7 @@
             }).then(function (resposta) {
 
                 if (resposta.ok) {
-                    window.alert("Post deletado com sucesso pelo usuario de email: " + sessionStorage.getItem("EMAIL_USUARIO") + "!");
+                    window.alert("Curtida deletada!");
                     window.location.reload(true);
                 } else if (resposta.status == 404) {
                     window.alert("Deu 404!");
@@ -262,6 +264,7 @@
                         var divButtons = document.createElement("div");
                         var spanCurtir = document.createElement("span");
                         var btnCurtir = document.createElement("input");
+                        var labelCurtir = document.createElement("label");
                         var qtdCurtir = document.createElement("span");
 
 
@@ -269,10 +272,9 @@
                         spanTitulo.innerHTML = "Título: <b>" + publicacao.titulo + "</b>";
                         spanNome.innerHTML = "Autor: <b>" + publicacao.nomeSocial + "</b>";
                         divDescricao.innerHTML = "Descrição:";
-                        divTexto.innerHTML = "<b>" + publicacao.descricao + "<b>";
+                        divTexto.innerHTML = `<span maxlength = "250" rows = "5">` + publicacao.descricao + "</span>";
                         spanCurtir.innerHTML = "<b>Curtir<b>";
                         qtdCurtir.innerHTML = publicacao.qtd;
-
 
                         divPublicacao.className = "publicacao";
 
@@ -281,14 +283,16 @@
                         spanTitulo.className = "publicacao-titulo";
                         divDescricao.className = "publicacao-descricao";
                         divTexto.className = "publicacao-texto";
-
+                        
                         divButtons.className = "div-buttons";
-
+                        
                         btnCurtir.type = "checkbox";
-                        btnCurtir.className = "like-checkbox";
+                        btnCurtir.className = "coracao-checkbox";
                         btnCurtir.id = "btnCurtir" + publicacao.idPublicacao;
                         btnCurtir.setAttribute("onclick", `curtir(${publicacao.idPublicacao})`);
-
+                        
+                        labelCurtir.className = "coracao-label";
+                        labelCurtir.setAttribute('for', btnCurtir.id);
 
                         divPublicacao.appendChild(spanDtPostagem);
                         divPublicacao.appendChild(spanNome);
@@ -300,6 +304,7 @@
                         divButtons.appendChild(qtdCurtir);
                         divButtons.appendChild(spanCurtir);
                         divButtons.appendChild(btnCurtir);
+                        divButtons.appendChild(labelCurtir);
 
 
                         feed.appendChild(divPublicacao);
@@ -318,6 +323,14 @@
             console.error(resposta);
 
         });
+    }
+
+    function pag_atual() {
+        div_mural.innerHTML = `<h3>Mural</h3>`;
+    }
+
+    function limpar() {
+        div_mural.innerHTML = `<h3>Página atual:</h3>`;
     }
 
 </script>
