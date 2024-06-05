@@ -1,156 +1,272 @@
-body{
-    margin: 0;
-    padding: 0;
+body {
+  margin: 0;
+  padding: 0;
 
 
-    display: flex;
+  display: flex;
 
-    background-color:  #01012B;
-    color:  #EEEF20;
+  background-color: #01012B;
+  background-image: url(imagens/Logo_Future_Member-removebg-preview.png);
+  background-position: 37% 10%;
+  background-repeat: no-repeat;
+  background-size: 300px;
+  color: #EEEF20;
 
-    height: 98vh;
+  height: 98vh;
 }
 
-.janela{
-    width: 100%;
-    height: 100%;
+.janela {
+  width: 100%;
+  height: 100%;
 
-    display: flex;
-    flex-direction: row;
-    
-    
+  display: flex;
+  flex-direction: row;
 }
 
-.header-right{
-    position: fixed;
-    right: 0;
-    width: 20%;
-    height: 100%;
+.header-right {
+  border-radius: 10% 0 0 10%;
+  position: fixed;
+  right: 0;
+  width: 20%;
+  height: 100%;
 
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
 
-    background-color: #7209B7;
+  border-left: 3px solid #323ccd;
+  background-color: #7209B7;
 
 }
 
-.Dashboard{
-    width: 80%;
-
-    gap: 10%;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
+.hello {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
-.dado{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    
-    height: 40%;
+.hello h4 {
+  color: #fdfa4c;
+  font-weight: 500;
 }
 
-.dado canvas{
-        height: 250px;
-        
-    }
+.hello h4 span {
+  font-weight: 800;
+}
+
+.hello h3 {
+  color: #fdfa4c;
+  font-weight: 500;
+  font-size: 1.2rem;
+}
+
+.hello h3 span {
+  font-weight: 800;
+}
+
+.Dashboard {
+  width: 80%;
+  backdrop-filter: blur(3px);
+  gap: 10%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.dado {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+
+  height: 40%;
+}
+
+.dado canvas {
+  height: 250px;
+
+}
 
 .publicacao-btn-editar {
-    cursor: pointer;
-    font-family: 'Barlow', 'Segoe UI', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    border: 0;
-    border-radius: 5px;
-    font-weight: 600;
-    font-size: 14px;
-    padding: 5px 8px;
-    color: #000;
-    background-color: #e6005a;
-    width: 80px;
-  }
-  
-  .publicacao {
-    display: flex;
-    flex-wrap: wrap;
-    align-content: stretch;
-    flex-direction: column;
-    justify-content: center;
-    align-items: stretch;
-    border-bottom: 3px solid #32b9cd;
-    padding: 20px;
-  
-    color: #000;
-  }
+  cursor: pointer;
+  font-family: 'Barlow', 'Segoe UI', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  border: 0;
+  border-radius: 5px;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 5px 8px;
+  color: white;
+  background-color: #e6005a;
+  width: 80px;
+}
 
-  .publicacao-descricao{
-    width: 100%;
-  }
+.publicacao {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: stretch;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  border-bottom: 3px solid #32b9cd;
 
-  .publicacao-texto b{
-    width: 100%;
-  }
-  
-  .publicacao-texto{
-    background-color: #ffffff;
-  }
-  
-  .publicacao>*:not(:last-child) {
-    padding: 0 0 10px 0;
-  }
-  
-  .div-results {
-    width: 50%;
+  margin: 3%;
 
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .div-results h1{
-    align-self: center;
-  }
+  background-color: #ffee58;
+  border-radius: 5px;
 
-  .div-results .postagem{
-    background-color: #ffee58;
-    border-radius: 5px;
-    margin-bottom: 80px;
-  }
-  
-  .div-buttons {
-    display: flex;
-    justify-content: flex-end;
-  
-    padding: 10px;
-      width: 100%;
-      height: 60px;
-      color: #000;
-      display: flex;
-      align-items: center;
-      justify-content: end;
-  
-  }
-  
-  .div-buttons>* {
-    margin-left: 30px;
-  }
-  
+  padding: 20px;
 
-  .btn-logout {
-    margin: 0;
-    padding: 0;
-    width: 10%;
-    background-color: #32b9cd;
-    color: white;
-    border-radius: 10px;
-    text-align: center;
-    padding: 10px 15px;
-    margin-bottom: 100px;
-    cursor: pointer;
-  }
+  color: #000;
+}
 
-  .btn-nav{
-    cursor: pointer;
-  }
+.publicacao-descricao {
+  width: 100%;
+  height: fit-content;
+}
+
+.publicacao-texto {
+  width: 95%;
+  background-color: #ffffff;
+
+  height: fit-content;
+
+  word-break: break-all;
+}
+
+.publicacao-texto span {
+  width: 100%;
+  height: 100%;
+}
+
+.publicacao>*:not(:last-child) {
+  padding: 0 0 10px 0;
+}
+
+.div-results {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.div-results .feed-container {
+  width: 65%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  margin-bottom: 80px;
+
+}
+
+.div-buttons {
+  display: flex;
+  justify-content: flex-end;
+
+  padding: 10px;
+  width: 100%;
+  height: 60px;
+  color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+
+}
+
+.coracao-checkbox {
+  display: none;
+}
+
+.coracao-label {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  background-image: url('imagens/coracao-unscreen.gif');
+  background-size: cover;
+
+  cursor: pointer;
+}
+
+.coracao-checkbox:checked+.coracao-label {
+  background-image: url('imagens/coracao-curtido-unscreen.gif');
+  cursor: pointer;
+}
+
+.div-buttons>* {
+  margin-left: 10px;
+}
+
+.btn-logout h3 {
+  margin: 0;
+  padding: 0;
+}
+
+.btn-logout {
+  margin: 0;
+
+  width: 20%;
+  background-color: #323ccd;
+  color: white;
+  border-radius: 5px;
+  text-align: center;
+  padding: 3% 6%;
+  cursor: pointer;
+}
+
+.btn-logout:hover {
+  transform: scale(105%, 105%);
+}
+
+.btn-nav-mural {
+  padding: 0 5px;
+  cursor: pointer;
+  color: #01012B;
+  background-color: aliceblue;
+  border: 3px solid #e60afa;
+  border-radius: 10px;
+}
+
+.btn-nav-mural:hover {
+  transition: 0.5s all;
+  color: white;
+  background-color: #e60afa;
+  transform: scale(110%, 110%);
+}
+
+.btn-nav {
+  width: 40%;
+  height: 6%;
+  color: white;
+  background-color: #e60afa;
+  border-radius: 5px;
+  text-align: center;
+  padding: 2% 5%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: 0.5s all;
+  cursor: cell;
+}
+
+.btn-nav:hover {
+  color: #01012B;
+  background-color: white;
+  border: 3px solid #e60afa;
+  transform: scale(110%, 110%);
+  transition: 0.5s all;
+  cursor: cell;
+}
+
+.btn-nav h3 {
+  color: white;
+}
+
+.btn-nav:hover h3 {
+  color: #01012B;
+}

@@ -29,8 +29,10 @@
             </div>
             <div class="div-results">
                 <h1>Suas Postagens</h1>
-                <div id="postagem" class="postagem">
+                <div class="feed-container">
+                    <div id="postagem" class="postagem">
 
+                    </div>
                 </div>
             </div>
 
@@ -39,10 +41,15 @@
         <div class="header-right">
 
             <div class="hello">
-                <h1>Olá, <span id="b_usuario">usuário</span>!</h1>
+                <h3>Bem vindo à sua dashboard, <span id="b_usuario">usuário</span>!</h3>
+                <h4>Você possui <span id="b_publicacoes">publicacoes</span> publicações</h4>
+            </div>
+            
+            <div id="div_mural" onmouseover="pag_atual()" onmouseleave="limpar()" class="btn-nav">
+                <h3>Página atual:</h3>
             </div>
 
-            <div class="btn-nav" onclick="mural()">
+            <div class="btn-nav-mural" onclick="mural()">
                 <h3>Mural de Postagens</h3>
             </div>
 
@@ -61,15 +68,14 @@
 </html>
 
 <script>
-
     b_usuario.innerHTML = sessionStorage.NOME_SOCIAL_USUARIO;
 
     function limparSessao() {
-    sessionStorage.clear();
-    window.location.href = "Login.html";
+        sessionStorage.clear();
+        window.location.href = "Login.html";
     }
 
-    function mural(){
+    function mural() {
         window.location.href = "Mural.html"
     }
 
@@ -81,49 +87,49 @@
         var idUsuario = sessionStorage.ID_USUARIO;
         var BUTAO = document.getElementById("btnCurtir" + idPublicacao)
 
-        if(BUTAO.checked == false){
+        if (BUTAO.checked == false) {
             console.log("Criar função de apagar post escolhido - ID" + idPublicacao);
-        fetch(`/publi/deletarCurtida/${idPublicacao}/${idUsuario}`, {
-            method: "DELETE",
-            headers: {
-                "Content-Type": "application/json"
-            }
-        }).then(function (resposta) {
+            fetch(`/publi/deletarCurtida/${idPublicacao}/${idUsuario}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            }).then(function (resposta) {
 
-            if (resposta.ok) {
-                window.alert("Curtida retirada!");
-                window.location.reload(true);
-            } else if (resposta.status == 404) {
-                window.alert("Deu 404!");
-            } else {
-                throw ("Houve um erro ao tentar realizar a postagem! Código da resposta: " + resposta.status);
-            }
-        }).catch(function (resposta) {
-            console.log(`#ERRO: ${resposta}`);
-        });
-        }else
+                if (resposta.ok) {
+                    window.alert("Curtida retirada!");
+                    window.location.reload(true);
+                } else if (resposta.status == 404) {
+                    window.alert("Deu 404!");
+                } else {
+                    throw ("Houve um erro ao tentar realizar a postagem! Código da resposta: " + resposta.status);
+                }
+            }).catch(function (resposta) {
+                console.log(`#ERRO: ${resposta}`);
+            });
+        } else
 
-        fetch(`/publi/curtir/${idPublicacao}/${idUsuario}`, {
-            method: "post",
-            headers: {
-                "Content-Type": "application/json"
-            },
-        }).then(function (resposta) {
+            fetch(`/publi/curtir/${idPublicacao}/${idUsuario}`, {
+                method: "post",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+            }).then(function (resposta) {
 
-            console.log("resposta: ", resposta);
+                console.log("resposta: ", resposta);
 
-            if (resposta.ok) {
-                alert("Curtida efetuada!")
-                window.location.reload(true)
-            } else if (resposta.status == 404) {
-                window.alert("Deu 404!");
-            } else {
-                throw ("Houve um erro ao tentar realizar a postagem! Código da resposta: " + resposta.status);
-            }
-        }).catch(function (resposta) {
-            console.log(`#ERRO: ${resposta}`);
+                if (resposta.ok) {
+                    alert("Curtida efetuada!")
+                    window.location.reload(true)
+                } else if (resposta.status == 404) {
+                    window.alert("Deu 404!");
+                } else {
+                    throw ("Houve um erro ao tentar realizar a postagem! Código da resposta: " + resposta.status);
+                }
+            }).catch(function (resposta) {
+                console.log(`#ERRO: ${resposta}`);
 
-        });
+            });
 
         return false;
 
@@ -206,21 +212,24 @@
                     var feed = document.getElementById("postagem");
                     feed.innerHTML = "";
 
+                    var qtdPublicacao = 0;
+
                     for (let i = resposta.length - 1; i >= 0; i--) {
                         var publicacao = resposta[i];
                         var idPublicacao = publicacao.idPublicacao;
 
+                        qtdPublicacao++;
 
                         // criando e manipulando elementos do HTML via JavaScript
                         var divPublicacao = document.createElement("div");
 
                         var data = new Date(publicacao.DtPostagem);
-                        
+
                         var ano = data.getFullYear();
                         var mes = (data.getMonth() + 1).toString().padStart(2, '0');
                         var dia = data.getDate().toString().padStart(2, '0');
                         console.log(`Post: ${publicacao.Titulo}, Data: ${ano}-${mes}-${dia}`);
-                        
+
                         var dataFormat = `${dia}/${mes}/${ano}`;
                         var spanDtPostagem = document.createElement("span")
 
@@ -229,8 +238,8 @@
                         var spanNome = document.createElement("span");
                         var divDescricao = document.createElement("div");
                         var divButtons = document.createElement("div");
-                        var spanCurtir = document.createElement("span");
                         var btnCurtir = document.createElement("input");
+                        var labelCurtir = document.createElement("label");
                         var qtdCurtir = document.createElement("span");
                         var btnDeletar = document.createElement("button");
 
@@ -240,7 +249,6 @@
                         spanNome.innerHTML = "Autor: <b>" + publicacao.nomeSocial + "</b>";
                         divDescricao.innerHTML = "Descrição:";
                         divTexto.innerHTML = "<b>" + publicacao.descricao + "<b>";
-                        spanCurtir.innerHTML = "<b>Curtir<b>";
                         qtdCurtir.innerHTML = publicacao.qtd;
                         btnDeletar.innerHTML = "Deletar";
 
@@ -256,9 +264,12 @@
                         divButtons.className = "div-buttons";
 
                         btnCurtir.type = "checkbox";
-                        btnCurtir.className = "like-checkbox";
+                        btnCurtir.className = "coracao-checkbox";
                         btnCurtir.id = "btnCurtir" + publicacao.idPublicacao;
                         btnCurtir.setAttribute("onclick", `curtir(${publicacao.idPublicacao})`);
+
+                        labelCurtir.className = "coracao-label";
+                        labelCurtir.setAttribute('for', btnCurtir.id);
 
                         btnDeletar.className = "publicacao-btn-editar"
                         btnDeletar.id = "btnDeletar" + publicacao.idPublicacao;
@@ -272,16 +283,17 @@
 
                         divPublicacao.appendChild(divButtons);
                         divButtons.appendChild(qtdCurtir);
-                        divButtons.appendChild(spanCurtir);
                         divButtons.appendChild(btnCurtir);
+                        divButtons.appendChild(labelCurtir);
                         divButtons.appendChild(btnDeletar);
 
 
                         feed.appendChild(divPublicacao);
 
-                        obterEstatistica(idPublicacao, (btnCurtir.id+1))
+                        obterEstatistica(idPublicacao, (btnCurtir.id + 1))
                     }
 
+                    b_publicacoes.innerHTML = qtdPublicacao;
 
                 });
             } else {
@@ -305,10 +317,10 @@
         let dados = {
             labels: labels,
             datasets: [{
-                label: 'Quantidade de Publicação',
+                label: 'Quantidade de Publicação por Dia',
                 data: [],
                 fill: false,
-                backgroundColor: 'rgb(5, 217, 232)',
+                backgroundColor: '#323ccd',
                 tension: 0.1
             }],
             options: {
@@ -331,7 +343,7 @@
                     }
                 }
             }
-    };
+        };
 
         console.log('----------------------------------------------')
         console.log('Estes dados foram recebidos pela funcao "obterDadosGrafico" e passados para "plotarGrafico":')
@@ -342,10 +354,10 @@
             var registro = resposta[i];
 
             var dataPost = new Date(registro.DtPostagem);
-                    var ano = dataPost.getFullYear();
-                    var mes = (dataPost.getMonth() + 1).toString().padStart(2, '0');
-                    var dia = dataPost.getDate().toString().padStart(2, '0');
-                    console.log(`Post: ${registro.Titulo}, Data: ${ano}-${mes}-${dia}`);
+            var ano = dataPost.getFullYear();
+            var mes = (dataPost.getMonth() + 1).toString().padStart(2, '0');
+            var dia = dataPost.getDate().toString().padStart(2, '0');
+            console.log(`Post: ${registro.Titulo}, Data: ${ano}-${mes}-${dia}`);
 
             var DataCompleta = `${dia}/${mes}/${ano}`
             labels.push(DataCompleta);
@@ -396,8 +408,13 @@
             });
     }
 
+    function pag_atual() {
+        div_mural.innerHTML = `<h3>Perfil</h3>`;
+    }
 
-
+    function limpar() {
+        div_mural.innerHTML = `<h3>Página atual:</h3>`;
+    }
 
 </script>
 
