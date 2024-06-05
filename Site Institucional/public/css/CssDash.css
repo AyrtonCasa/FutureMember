@@ -13,6 +13,8 @@ body {
   color: #EEEF20;
 
   height: 98vh;
+
+  scroll-behavior: smooth;
 }
 
 .janela {

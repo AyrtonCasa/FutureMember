@@ -1,7 +1,7 @@
 -- drop database futuremember;
 
 CREATE DATABASE futuremember;
-use FutureMember;
+use futuremember;
 
 
 create table usuario(

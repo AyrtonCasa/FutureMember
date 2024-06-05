@@ -16,8 +16,8 @@ function listar() {
     u.email,
     u.senha,
     count(curtida.idCurtida) as qtd
-FROM Publicacao p
-    INNER JOIN usuario u
+FROM publicacao as p
+    INNER JOIN usuario as u
         ON p.fkDono = u.idUsuario
     left JOIN curtida 
         ON curtida.fkPublicacao = p.idPublicacao
@@ -42,8 +42,8 @@ function pesquisarDescricao(texto) {
         u.DtNasc,
         u.email,
         u.senha
-        FROM Publicacao p
-            INNER JOIN usuario u
+        FROM publicacao as p
+            INNER JOIN usuario as u
                 ON p.fkDono = u.idUsuario
         WHERE a.descricao LIKE '${texto}';
     `;
@@ -67,8 +67,8 @@ function listarPorUsuario(idUsuario) {
     u.email,
     u.senha,
     count(curtida.idCurtida) as qtd
-FROM Publicacao p
-    INNER JOIN usuario u
+FROM publicacao as p
+    INNER JOIN usuario as u
         ON p.fkDono = u.idUsuario
     left JOIN curtida 
         ON curtida.fkPublicacao = p.idPublicacao
@@ -92,7 +92,7 @@ function publicar(titulo, descricao, idUsuario) {
 function curtir(idPublicacao, idUsuario) {
     console.log("ACESSEI O AVISO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function publicar(): ", idUsuario, idPublicacao);
     var instrucaoSql = `
-        INSERT INTO curtida (idCurtida, fkPublicacao, fkUsuario,dataCurtida) VALUES (1, ${idPublicacao}, ${idUsuario}, now());
+        INSERT INTO curtida (idCurtida, fkPublicacao, fkUsuario, dataCurtida) VALUES (1, ${idPublicacao}, ${idUsuario}, now());
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);

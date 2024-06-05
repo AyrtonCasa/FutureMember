@@ -3,7 +3,8 @@ var database = require("../database/config");
 function buscarUltimasMedidas(idUsuario, limite_linhas) {
 
     var instrucaoSql = `SELECT 
-    COUNT(idPublicacao) as qtd, publicacao.DtPostagem as DtPostagem
+    COUNT(idPublicacao) as qtd, 
+    publicacao.DtPostagem as DtPostagem
 FROM
     publicacao
         JOIN
